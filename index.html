@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Interactive Reaction Lab — SN1</title>
+<link rel="stylesheet" href="reaction-visualizer.css">
+</head>
+<body>
+<main class="app">
+<header class="hero"><div><span class="eyebrow">INTERACTIVE CHEMISTRY LAB</span><h1>Reaction Visualizer</h1><p>Watch bonds break, electrons move, intermediates form, and products appear.</p></div><select id="reactionSelect" aria-label="Select reaction"><option value="sn1">SN1 • tert-Butyl bromide + water</option><option value="sn2">SN2 • Bromoethane + hydroxide</option></select></header>
+<section class="reaction-card">
+<div class="mechanism-head"><div><span id="stepBadge" class="badge">STEP 1</span><h2 id="stepTitle">Reactants</h2><p id="stepText"></p></div><div class="rate-box"><span>Rate law</span><strong id="rateLaw">Rate = k[substrate]</strong></div></div>
+<div class="lab-grid">
+<div class="canvas-wrap"><svg id="reactionSvg" viewBox="0 0 1000 500" role="img" aria-label="Animated chemical reaction"></svg><div class="legend"><span><i class="dot atom"></i>Atom</span><span><i class="dot electron"></i>Electron flow</span><span><i class="dot focus"></i>Active site</span></div></div>
+<aside class="explain"><div class="explain-title">What's happening?</div><p id="mechanismText"></p><div class="why"><button id="whyBtn" type="button">Why does this happen? <span>+</span></button><div id="whyText" hidden></div></div></aside>
+</div>
+<div id="timeline" class="timeline"></div>
+<div class="controls"><button id="prevBtn">← Previous</button><button id="playBtn" class="primary">▶ Play</button><button id="nextBtn">Next →</button><button id="resetBtn">↺ Reset</button><label>Speed <select id="speedSelect"><option value="1800">0.75×</option><option value="1200" selected>1×</option><option value="800">1.5×</option><option value="500">2×</option></select></label></div>
+</section>
+<section class="concepts"><article><span>01</span><h3>Key concept</h3><p id="concept1"></p></article><article><span>02</span><h3>Intermediate</h3><p id="concept2"></p></article><article><span>03</span><h3>Learning note</h3><p id="concept3"></p></article></section>
+</main>
+<script src="reactions.js"></script><script src="reaction-engine.js"></script>
+</body></html>
