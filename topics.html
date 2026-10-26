@@ -1,0 +1,201 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="google-site-verification"
+    content="04UHJ1PhCJGy1Vu2kl-1ek7CgkGmufRxs79IIIzAuVo">
+
+<meta name="description"
+    content="ChemistryForAll – A platform for chemistry lovers to explore, learn and understand chemistry.">
+
+<meta name="keywords"
+    content="Chemistry, ChemistryForAll, Organic Chemistry, Inorganic Chemistry, Physical Chemistry, Pharmaceutical Chemistry">
+
+<meta name="author" content="ChemistryForAll">
+
+<title>BlogPage - ChemistryForAll</title>
+
+<!-- Font Awesome -->
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="css/style.css">
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="favicon/favicon48.ico">
+
+</head><body><div class="container"><!-- =========================
+     BRAND
+========================== -->
+
+<a href="#" class="logo">
+    Chemistry<span>For</span>All
+</a>
+
+
+<!-- =========================
+     HEADER / NAVIGATION
+========================== -->
+
+<header>
+
+    <div id="menu" class="fas fa-bars"></div>
+
+    <nav class="navbar">
+
+        <a href="Index.html" >
+            <i class="fas fa-home"></i>
+            Home
+        </a>
+        
+                <a href="topics.html" class="active">
+            <i class="fas fa-book-open"></i>
+            Topics
+        </a>
+        
+        <a href="Rxn.html">
+        <i class="fas fa-atom"></i>
+            Reactions
+        </a>
+
+    <a href="elements.html">
+            <i class="fas fa-th"></i>
+            Elements
+        </a>
+
+    <a href="">
+            <i class="fas fa-capsules"></i>
+            Drugs & Chemistry
+        </a>
+
+
+        <a href="blog.html">
+            <i class="fas fa-blog"></i>
+            Blog
+        </a>
+
+        <a href="about.html">
+            <i class="fas fa-flask"></i>
+            About Us
+        </a>
+
+        <a href="contact.html">
+            <i class="fas fa-envelope"></i>
+            Contact Us
+        </a>
+
+    </nav>
+
+</header>
+<!-- =========================
+     MAIN CONTENT
+========================== -->
+
+<main class="middle-content">
+        <!-- =========================
+         HERO / COMING SOON
+    ========================== -->
+
+    <div class="home-content">
+
+        <h3>Coming Soon</h3>
+
+    </div>
+
+
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <section class="footer">
+
+        <div class="footer-brand">
+            <a href="index.html" class="logo">
+                Chemistry<span>For</span>All
+            </a>
+
+            <p>
+                Explore • Learn • Experiment
+            </p>
+        </div>
+
+        <div class="footer-links">
+
+            <a href="index.html">
+                <i class="fas fa-home"></i> Home
+            </a>
+
+        <a href="">
+            <i class="fas fa-book-open"></i>
+            Topics
+        </a>
+        
+        <a href="Rxn.html">
+        <i class="fas fa-atom"></i>
+            Reactions
+        </a>
+
+    <a href="">
+            <i class="fas fa-th"></i>
+            Elements
+        </a>
+
+    <a href="">
+            <i class="fas fa-capsules"></i>
+            Drugs & Chemistry
+        </a>
+
+
+            <a href="blog.html">
+                <i class="fas fa-blog"></i> Blog
+            </a>
+
+            <a href="about.html">
+                <i class="fas fa-flask"></i> About
+            </a>
+
+            <a href="contact.html">
+                <i class="fas fa-envelope"></i> Contact
+            </a>
+
+        </div>
+
+        <p class="credit">
+            Created with ❤️ by vkdigital29
+        </p>
+
+        <p class="copyright">
+            Copyright © 2026 ChemistryForAll. All Rights Reserved.
+        </p>
+
+    </section>
+
+</div>
+
+
+<!-- ================= MOBILE MENU ================= -->
+
+<script>
+
+    const menu = document.querySelector('#menu');
+    const navbar = document.querySelector('.navbar');
+
+    menu.addEventListener('click', () => {
+        menu.classList.toggle('fa-times');
+        navbar.classList.toggle('active');
+    });
+
+    document.querySelectorAll('.navbar a').forEach(link => {
+
+        link.addEventListener('click', () => {
+            menu.classList.remove('fa-times');
+            navbar.classList.remove('active');
+        });
+
+    });
+
+</script>
+
+</html>

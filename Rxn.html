@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Interactive Reaction Lab — SN1</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1"><meta name="google-site-verification"
+    content="04UHJ1PhCJGy1Vu2kl-1ek7CgkGmufRxs79IIIzAuVo">
+
+<meta name="description"
+    content="ChemistryForAll – A platform for chemistry lovers to explore, learn and understand chemistry.">
+
+<meta name="keywords"
+    content="Chemistry, ChemistryForAll, Organic Chemistry, Inorganic Chemistry, Physical Chemistry, Pharmaceutical Chemistry">
+
+<meta name="author" content="ChemistryForAll">
+
+<title>BlogPage - ChemistryForAll</title>
+
+<!-- Font Awesome -->
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/reaction-visualizer.css">
+  <style>
+    :root {
+        --ink: #172033;
+        --muted: #667085;
+        --line: #334155;
+        --br: #c2410c;
+        --o: #2563eb;
+        --plus: #e11d48;
+        --panel: #f8fafc;
+        --border: #e2e8f0;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        padding: 36px 16px 60px;
+        background: #f4f7fb;
+        font-family: Inter, system-ui, -apple-system, sans-serif;
+        color: var(--ink);
+    }
+
+    h1 {
+        font-size: 20px;
+        font-weight: 800;
+        margin: 0;
+    }
+
+    .subtitle {
+        color: var(--muted);
+        font-size: 14px;
+        margin-top: -12px;
+    }
+
+    .stage {
+        width: min(680px, 100%);
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        box-shadow: 0 15px 50px rgba(15,23,42,.08);
+        overflow: hidden;
+    }
+
+    .rxn-visual {
+        position: relative;
+        height: 260px;
+    }
+
+    .rxn-state {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .35s ease;
+    }
+
+    .rxn-state.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .rxn-state svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+
+    .caption {
+        border-top: 1px solid var(--border);
+        padding: 18px 24px 22px;
+        background: var(--panel);
+    }
+
+    .step-label {
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: .06em;
+        color: var(--o);
+        text-transform: uppercase;
+    }
+
+    .step-title {
+        font-size: 18px;
+        font-weight: 800;
+        margin: 4px 0 6px;
+    }
+
+    .step-desc {
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.55;
+        margin: 0;
+    }
+
+    .controls {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px 24px;
+        border-top: 1px solid var(--border);
+    }
+
+    .controls button {
+        border: 1px solid #d9e0e8;
+        background: #fff;
+        border-radius: 10px;
+        padding: 9px 14px;
+        font: inherit;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .controls button.primary {
+        background: var(--ink);
+        color: #fff;
+        border-color: var(--ink);
+    }
+
+    .dots {
+        display: flex;
+        gap: 6px;
+        margin-left: auto;
+    }
+
+    .dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: #d9e0e8;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+    }
+
+    .dot.active { background: var(--o); }
+
+    /* ---- chemistry drawing tokens ---- */
+    .bond { stroke: var(--line); stroke-width: 2.4; stroke-linecap: round; }
+    .atom-label { font-family: Inter, sans-serif; font-size: 15px; font-weight: 700; fill: var(--ink); }
+    .lone-pair { fill: var(--o); }
+    .charge {
+        font-size: 15px;
+        font-weight: 800;
+    }
+    .charge.plus { fill: var(--plus); }
+    .charge.minus { fill: var(--br); }
+    .molecule-tag { font-size: 12px; fill: var(--muted); font-weight: 600; }
+
+    .curved-arrow {
+        fill: none;
+        stroke: var(--plus);
+        stroke-width: 2.2;
+        stroke-linecap: round;
+        marker-end: url(#arrowhead);
+        stroke-dasharray: 1;
+        stroke-dashoffset: 1;
+    }
+
+    .rxn-state.active .curved-arrow {
+        animation: drawArrow 1s ease forwards;
+        animation-delay: .25s;
+    }
+
+    @keyframes drawArrow {
+        to { stroke-dashoffset: 0; }
+    }
+
+    .rxn-state.active .fade-in {
+        animation: fadeIn .5s ease forwards;
+        animation-delay: .6s;
+        opacity: 0;
+    }
+
+    @keyframes fadeIn {
+        to { opacity: 1; }
+    }
+
+    .product-box {
+        fill: none;
+        stroke: var(--line);
+        stroke-width: 1.6;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .curved-arrow { animation: none !important; stroke-dashoffset: 0; }
+        .fade-in { animation: none !important; opacity: 1; }
+    }
+    </style>
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="favicon/favicon48.ico">
+
+
+</head>
+<body>
+    <div class="container"><!-- =========================
+     BRAND
+========================== -->
+
+<a href="#" class="logo">
+    Chemistry<span>For</span>All
+</a>
+
+
+<!-- =========================
+     HEADER / NAVIGATION
+========================== -->
+
+<header>
+
+    <div id="menu" class="fas fa-bars"></div>
+
+    <nav class="navbar">
+
+        <a href="Index.html" >
+            <i class="fas fa-home"></i>
+            Home
+        </a>
+        
+                <a href="">
+            <i class="fas fa-book-open"></i>
+            Topics
+        </a>
+        
+        <a href="#" class="active">
+        <i class="fas fa-atom" ></i></i>
+            Reactions
+        </a>
+
+    <a href="">
+            <i class="fas fa-th"></i>
+            Elements
+        </a>
+
+    <a href="">
+            <i class="fas fa-capsules"></i>
+            Drugs & Chemistry
+        </a>
+
+
+        <a href="blog.html">
+            <i class="fas fa-blog"></i>
+            Blog
+        </a>
+
+        <a href="about.html">
+            <i class="fas fa-flask"></i>
+            About Us
+        </a>
+
+        <a href="contact.html">
+            <i class="fas fa-envelope"></i>
+            Contact Us
+        </a>
+
+    </nav>
+
+</header>
+<!-- =========================
+     MAIN CONTENT
+========================== -->
+
+<main class="middle-content">
+        <main class="app">
+        <main class="hero">
+            <div>
+                <span class="eyebrow">INTERACTIVE CHEMISTRY LAB</span><h1>Reaction Visualizer</h1><p>
+                    Watch bonds break, electrons move, intermediates form, and products appear.
+                </p>
+            </div>
+            <select id="reactionSelect" aria-label="Select reaction"><option value="sn1">SN1 • tert-Butyl bromide + water</option><option value="sn2">SN2 • Bromoethane + hydroxide</option></select>
+        </main>
+        <section class="reaction-card">
+            <div class="mechanism-head">
+                <div>
+                    <span id="stepBadge" class="badge">STEP 1</span><h2 id="stepTitle">Reactants</h2><p id="stepText"></p>
+                </div>
+                <div class="rate-box">
+                    <span>Rate law</span><strong id="rateLaw">Rate = k[substrate]</strong>
+                </div>
+            </div>
+            <div class="lab-grid">
+                <div class="canvas-wrap">
+                    <svg id="reactionSvg" viewBox="0 0 1000 500" role="img" aria-label="Animated chemical reaction"></svg><div class="legend">
+                        <span><i class="dot atom"></i>Atom</span><span><i class="dot electron"></i>Electron flow</span><span><i class="dot focus"></i>Active site</span>
+                    </div>
+                </div>
+                <aside class="explain">
+                    <div class="explain-title">
+                        What's happening?
+                    </div>
+                    <p id="mechanismText"></p>
+                    <div class="why">
+                        <button id="whyBtn" type="button">Why does this happen? <span>+</span></button><div id="whyText" hidden></div>
+                    </div>
+                </aside>
+            </div>
+            <div id="timeline" class="timeline"></div>
+            <div class="controls">
+                <button id="prevBtn">← Previous</button><button id="playBtn" class="primary">▶ Play</button><button id="nextBtn">Next →</button><button id="resetBtn">↺ Reset</button><label>Speed <select id="speedSelect"><option value="1800">0.75×</option><option value="1200" selected>1×</option><option value="800">1.5×</option><option value="500">2×</option></select></label>
+            </div>
+        </section>
+        <section class="concepts">
+            <article>
+                <span>01</span><h3>Key concept</h3><p id="concept1"></p>
+            </article>
+            <article>
+                <span>02</span><h3>Intermediate</h3><p id="concept2"></p>
+            </article>
+            <article>
+                <span>03</span><h3>Learning note</h3><p id="concept3"></p>
+            </article>
+        </section>
+    </main>
+    <script src="js/reactions.js"></script>
+    <script src="js/reaction-engine.js"></script>
+</body>
+
+    <!-- ================= FOOTER ================= -->
+
+    <section class="footer">
+
+        <div class="footer-brand">
+            <a href="index.html" class="logo">
+                Chemistry<span>For</span>All
+            </a>
+
+            <p>
+                Explore • Learn • Experiment
+            </p>
+        </div>
+
+        <div class="footer-links">
+
+            <a href="index.html">
+                <i class="fas fa-home"></i> Home
+            </a>
+
+        <a href="">
+            <i class="fas fa-book-open"></i>
+            Topics
+        </a>
+        
+        <a href="">
+        <i class="fas fa-atom"></i>
+            Reactions
+        </a>
+
+    <a href="">
+            <i class="fas fa-th"></i>
+            Elements
+        </a>
+
+    <a href="">
+            <i class="fas fa-capsules"></i>
+            Drugs & Chemistry
+        </a>
+
+
+            <a href="blog.html">
+                <i class="fas fa-blog"></i> Blog
+            </a>
+
+            <a href="about.html">
+                <i class="fas fa-flask"></i> About
+            </a>
+
+            <a href="contact.html">
+                <i class="fas fa-envelope"></i> Contact
+            </a>
+
+        </div>
+
+        <p class="credit">
+            Created with ❤️ by vkdigital29
+        </p>
+
+        <p class="copyright">
+            Copyright © 2026 ChemistryForAll. All Rights Reserved.
+        </p>
+
+    </section>
+
+</div>
+
+
+<!-- ================= MOBILE MENU ================= -->
+
+<script>
+
+    const menu = document.querySelector('#menu');
+    const navbar = document.querySelector('.navbar');
+
+    menu.addEventListener('click', () => {
+        menu.classList.toggle('fa-times');
+        navbar.classList.toggle('active');
+    });
+
+    document.querySelectorAll('.navbar a').forEach(link => {
+
+        link.addEventListener('click', () => {
+            menu.classList.remove('fa-times');
+            navbar.classList.remove('active');
+        });
+
+    });
+
+</script>
+
+
+
+</html>

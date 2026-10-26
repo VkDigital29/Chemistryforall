@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Periodic Table</title>
+    <link rel="stylesheet" href="css/elements.css">
+    
+    <!-- Font Awesome -->
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="css/style.css">
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="favicon/favicon48.ico">
+
+</head>
+<body>
+    <div class="container"><!-- =========================
+     BRAND
+========================== -->
+
+<a href="#" class="logo">
+    Chemistry<span>For</span>All
+</a>
+
+
+<!-- =========================
+     HEADER / NAVIGATION
+========================== -->
+
+<header>
+
+    <div id="menu" class="fas fa-bars"></div>
+
+    <nav class="navbar">
+
+        <a href="index.html">
+            <i class="fas fa-home"></i>
+            Home
+        </a>
+        
+        <a href="">
+            <i class="fas fa-book-open"></i>
+            Topics
+        </a>
+        
+        <a href="Rxn.html">
+        <i class="fas fa-atom"></i>
+            Reactions
+        </a>
+
+    <a href="elements.html"class="active">
+            <i class="fas fa-th"></i>
+            Elements
+        </a>
+
+    <a href="">
+            <i class="fas fa-capsules"></i>
+            Drugs & Chemistry
+        </a>
+
+        <a href="blog.html">
+            <i class="fas fa-blog"></i>
+            Blog
+        </a>
+
+        <a href="about.html">
+            <i class="fas fa-flask"></i>
+            About Us
+        </a>
+
+        <a href="contact.html">
+            <i class="fas fa-envelope"></i>
+            Contact Us
+        </a>
+        
+
+    </nav>
+
+</header>
+
+
+<!-- =========================
+     MAIN CONTENT
+========================== -->
+
+<main class="middle-content">
+
+    <main class="elements-page">
+        <header class="page-header">
+            <div>
+                
+                <h1>Interactive Periodic Table</h1>
+                <p>Click any of the 118 elements to explore its atomic, electronic and chemical properties.</p>
+            </div>
+            <div class="search-wrap">
+                <input id="elementSearch" type="search" placeholder="Search element, symbol, number or category..." autocomplete="off">
+                <div class="search-count" id="searchCount" aria-live="polite"></div>
+            </div>
+        </header>
+
+        <section class="legend" id="legend" aria-label="Filter by category"></section>
+        <section class="periodic-table" id="periodicTable" aria-label="Periodic Table"></section>
+
+        <div class="modal-backdrop" id="elementModal" hidden>
+            <article class="element-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+                <button class="close-btn" id="closeModal" aria-label="Close">×</button>
+                <div class="element-hero" id="elementHero"></div>
+                <div class="property-grid" id="propertyGrid"></div>
+                <section class="detail-section">
+                    <h2>⚛ Atomic Structure</h2>
+                    <div class="atomic-layout">
+                        <div class="atom-card" id="atomDiagram"></div>
+                        <div class="structure-text" id="structureText"></div>
+                    </div>
+                </section>
+                <section class="detail-section">
+                    <h2>🔬 Hybridization &amp; Geometry</h2>
+                    <div class="hybrid-grid" id="hybridization"></div>
+                </section>
+                <section class="detail-section">
+                    <h2>🧪 Chemistry &amp; Pharmaceutical Relevance</h2>
+                    <div class="chemistry-info" id="chemistryInfo"></div>
+                </section>
+                <nav class="modal-nav">
+                    <button id="prevBtn" type="button">‹ Previous</button>
+                    <button id="nextBtn" type="button">Next ›</button>
+                </nav>
+            </article>
+        </div>
+    </main>
+    <script src="js/elements-data.js"></script>
+    <script src="js/elements.js"></script>
+</body>
+</html>
