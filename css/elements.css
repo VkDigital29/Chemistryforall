@@ -1,0 +1,274 @@
+:root {
+    --bg: #f5f7fb;
+    --card: #fff;
+    --text: #172033;
+    --muted: #687386;
+    --line: #dfe4ec;
+    --accent: #635bff;
+    --shadow: 0 20px 60px rgba(25,35,55,.14)
+}
+
+* { box-sizing: border-box }
+
+body {
+    margin: 0;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--text)
+}
+
+body.modal-open { overflow: hidden }
+
+/* category colours: one variable drives dots, tiles and the modal */
+.alkali { --c: #ff7676 }
+.alkaline { --c: #ffb45e }
+.transition { --c: #9b7cff }
+.post-transition { --c: #61c7a5 }
+.metalloid { --c: #f0ca55 }
+.nonmetal { --c: #4f8cff }
+.halogen { --c: #ed7cc4 }
+.noble-gas { --c: #65b8e8 }
+.lanthanide { --c: #8fbf5a }
+.actinide { --c: #e28b72 }
+.unknown { --c: #aab0bd }
+
+.elements-page { max-width: 1500px; margin: auto; padding: 42px 28px }
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    align-items: end;
+    margin-bottom: 25px
+}
+
+.eyebrow { font-size: 11px; font-weight: 800; letter-spacing: .16em; color: var(--accent) }
+h1 { font-size: clamp(30px, 4vw, 52px); margin: 6px 0 }
+.page-header p { color: var(--muted); margin: 0 }
+
+.search-wrap input {
+    width: min(390px, 90vw);
+    padding: 14px 17px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: #fff;
+    font-size: 14px;
+    outline: none
+}
+.search-wrap input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(99,91,255,.15) }
+.search-count { font-size: 12px; color: var(--muted); margin-top: 6px; min-height: 16px }
+
+.legend { display: flex; flex-wrap: wrap; gap: 8px 10px; margin: 20px 0; font-size: 12px }
+.legend button {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 11px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: #fff;
+    color: var(--muted);
+    font: inherit;
+    text-transform: capitalize;
+    cursor: pointer
+}
+.legend button:hover { border-color: var(--c) }
+.legend button.active { background: var(--c); border-color: var(--c); color: #172033; font-weight: 700 }
+
+.dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; background: var(--c, #aaa) }
+
+.periodic-table {
+    display: grid;
+    grid-template-columns: repeat(18, minmax(50px, 1fr));
+    grid-template-rows: repeat(7, 78px) 18px repeat(2, 78px);
+    gap: 7px;
+    overflow: auto;
+    padding: 4px
+}
+
+.element {
+    position: relative;
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--c, var(--line));
+    border-radius: 12px;
+    background: #fff;
+    padding: 7px 5px;
+    cursor: pointer;
+    text-align: center;
+    transition: .2s;
+    min-width: 50px;
+    font: inherit;
+    color: inherit
+}
+.element:hover, .element:focus-visible {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(25,35,55,.12);
+    border-color: var(--accent);
+    border-top-color: var(--c);
+    outline: none
+}
+.element.dim { opacity: .15 }
+.element small { position: absolute; top: 5px; left: 6px; font-size: 9px; color: var(--muted) }
+.element strong { display: block; font-size: 23px; margin-top: 11px }
+.element span {
+    display: block;
+    font-size: 9px;
+    color: var(--muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis
+}
+
+.placeholder {
+    border: 1px dashed var(--c);
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font-size: 11px;
+    color: var(--muted);
+    background: rgba(255,255,255,.5)
+}
+
+.series-label { font-size: 10px; color: var(--muted); align-self: center; padding-left: 4px }
+
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(12,18,30,.58);
+    backdrop-filter: blur(7px);
+    z-index: 50;
+    overflow: auto;
+    padding: 30px
+}
+.modal-backdrop[hidden] { display: none }
+
+.element-modal {
+    position: relative;
+    max-width: 1000px;
+    margin: auto;
+    background: #fff;
+    border-radius: 26px;
+    box-shadow: var(--shadow);
+    padding: 32px
+}
+
+.close-btn {
+    position: absolute;
+    right: 18px;
+    top: 14px;
+    border: 0;
+    background: #f1f3f7;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    font-size: 27px;
+    cursor: pointer
+}
+
+.element-hero { display: flex; align-items: center; gap: 22px; padding-right: 50px; margin-bottom: 25px }
+.big-symbol {
+    flex: none;
+    width: 105px;
+    height: 105px;
+    border-radius: 22px;
+    display: grid;
+    place-items: center;
+    font-size: 43px;
+    font-weight: 900;
+    background: #f2f4f9;
+    border-top: 5px solid var(--c, var(--accent))
+}
+.element-hero h2 { font-size: 38px; margin: 4px 0 }
+.element-hero p { color: var(--muted); margin: 0; text-transform: none }
+.badge {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: #fff4d6;
+    color: #8a6a00;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0;
+    vertical-align: middle
+}
+
+.property-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 28px }
+.prop { background: #f7f8fb; border: 1px solid #eceff4; border-radius: 14px; padding: 13px }
+.prop label { display: block; color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .06em }
+.prop strong { display: block; margin-top: 5px; font-size: 14px; line-height: 1.4 }
+
+.detail-section { border-top: 1px solid var(--line); padding-top: 23px; margin-top: 23px }
+.detail-section h2 { font-size: 20px }
+
+.atomic-layout { display: grid; grid-template-columns: 300px 1fr; gap: 20px }
+.atom-card, .structure-text, .hybrid-card, .chemistry-info {
+    background: #f8f9fc;
+    border: 1px solid #e8ebf1;
+    border-radius: 18px
+}
+.atom-card { display: grid; place-items: center; padding: 12px }
+.atom-svg { width: 270px; max-width: 100% }
+.shell { fill: none; stroke: #cfd5e1 }
+.nucleus { fill: #635bff }
+.atom-svg text { fill: #fff; font-size: 8px; font-weight: 800 }
+.electron { fill: #4f8cff }
+
+.structure-text { padding: 18px }
+.fact { display: flex; justify-content: space-between; gap: 20px; padding: 14px 0; border-bottom: 1px solid #e4e7ee }
+.fact:last-child { border-bottom: 0 }
+.fact b { font-size: 13px }
+.fact span { color: var(--muted); text-align: right }
+
+.hybrid-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px }
+.hybrid-card { padding: 17px }
+.hybrid-card b { font-size: 22px }
+.hybrid-card span { display: block; color: var(--muted); font-size: 12px; margin-top: 4px }
+.hybrid-visual { margin-top: 8px }
+.hybrid-visual svg { width: 120px; height: 120px }
+.orbital { stroke: #635bff; stroke-width: 4; stroke-linecap: round }
+.center { fill: #172033 }
+
+.chemistry-info { padding: 18px }
+.chemistry-info p { line-height: 1.7; color: #4f596c; margin-top: 0 }
+.tags { display: flex; flex-wrap: wrap; gap: 8px }
+.tags span {
+    padding: 7px 10px;
+    border-radius: 999px;
+    background: #fff;
+    border: 1px solid var(--line);
+    font-size: 11px;
+    color: var(--muted)
+}
+.empty-note { padding: 18px; background: #f7f8fb; border-radius: 14px; color: var(--muted); font-size: 13px; grid-column: 1 / -1 }
+
+.modal-nav { display: flex; justify-content: space-between; margin-top: 26px }
+.modal-nav button {
+    border: 1px solid var(--line);
+    background: #fff;
+    border-radius: 12px;
+    padding: 10px 16px;
+    font: inherit;
+    font-size: 13px;
+    cursor: pointer
+}
+.modal-nav button:hover:not(:disabled) { border-color: var(--accent); color: var(--accent) }
+.modal-nav button:disabled { opacity: .35; cursor: default }
+
+@media (max-width: 900px) {
+    .page-header { align-items: stretch; flex-direction: column }
+    .periodic-table { grid-template-columns: repeat(18, 55px) }
+    .property-grid { grid-template-columns: repeat(2, 1fr) }
+    .atomic-layout { grid-template-columns: 1fr }
+    .hybrid-grid { grid-template-columns: 1fr 1fr }
+}
+
+@media (max-width: 600px) {
+    .elements-page { padding: 25px 14px }
+    .modal-backdrop { padding: 10px }
+    .element-modal { padding: 22px 16px; border-radius: 20px }
+    .element-hero h2 { font-size: 29px }
+    .big-symbol { width: 78px; height: 78px; font-size: 31px }
+    .property-grid { grid-template-columns: 1fr }
+    .hybrid-grid { grid-template-columns: 1fr }
+}
